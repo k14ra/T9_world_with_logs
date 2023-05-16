@@ -19,14 +19,12 @@ public class ConfigLoader {
 	private final String DB_URL_DEFAULT = "jdbc:mysql://127.0.0.1:3306/" + DB_NAME_DEFAULT;
 	private final String DB_USER_DEFAULT = "root";
 	private final String DB_PASS_DEFAULT = "";
-	
 
 	private String db_type;
 	private String db_name;
 	private String db_url;
 	private String db_user;
 	private String db_pass;
-	
 
 	private Path configFile = Paths.get("config/config.txt");
 
@@ -50,43 +48,44 @@ public class ConfigLoader {
 		logger.info("Obteniendo la información de la configuración...");
 
 		try (BufferedReader br = Files.newBufferedReader(configFile, StandardCharsets.UTF_8)) {
-			
-			String line =null;
-			while((line = br.readLine()) != null ) {
+
+			String line = null;
+			while ((line = br.readLine()) != null && line.trim().length() != 0) {
+				logger.debug(line);
 				String[] configLine = line.split("=");
 				switch (configLine[0]) {
 				case "db_type":
-					if(configLine[1].isEmpty()) {
+					if (configLine[1].trim().isEmpty() || configLine[1].trim().length() == 0) {
 						this.db_type = DB_TYPE_DEFAULT;
-					} else {						
+					} else {
 						this.db_type = configLine[1];
 					}
 					break;
 				case "db_url":
-					if(configLine[1].isEmpty()) {
+					if (configLine[1].trim().isEmpty() || configLine[1].trim().length() == 0) {
 						this.db_url = DB_URL_DEFAULT;
-					} else {						
+					} else {
 						this.db_url = configLine[1];
 					}
 					break;
 				case "db_name":
-					if(configLine[1].isEmpty()) {
+					if (configLine[1].trim().isEmpty() || configLine[1].trim().length() == 0) {
 						this.db_name = DB_NAME_DEFAULT;
-					} else {						
+					} else {
 						this.db_name = configLine[1];
 					}
 					break;
 				case "db_user":
-					if(configLine[1].isEmpty()) {
+					if (configLine[1].trim().isEmpty() || configLine[1].trim().length() == 0) {
 						this.db_user = DB_USER_DEFAULT;
-					} else {						
+					} else {
 						this.db_user = configLine[1];
 					}
 					break;
 				case "db_pass":
-					if(configLine[1].isEmpty()) {
+					if (configLine[1].trim().isEmpty() || configLine[1].trim().length() == 0) {
 						this.db_pass = DB_PASS_DEFAULT;
-					} else {						
+					} else {
 						this.db_pass = configLine[1];
 					}
 					break;
@@ -98,7 +97,7 @@ public class ConfigLoader {
 			logger.error("Error al leer el fichero de configuración", e);
 		}
 	}
-	
+
 	public String getDb_type() {
 		return db_type;
 	}
@@ -118,7 +117,5 @@ public class ConfigLoader {
 	public String getDb_pass() {
 		return db_pass;
 	}
-
-	
 
 }
