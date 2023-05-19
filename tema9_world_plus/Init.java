@@ -13,17 +13,15 @@ import edu.alonso.daw.tema9_world.utils.DBConnection;
 public class Init {
 
 	private static Logger logger = LogManager.getLogger(Init.class);
-	
+
 	public static void main(String[] args) {
-		
-		
-		
-		/*logger.debug("Example log from");
-		logger.info("Example log from");
-		logger.warn("Example log from");
-		logger.error("Example log from");
-		logger.fatal("Example log from");*/
-		
+
+		/*
+		 * logger.debug("Example log from"); logger.info("Example log from");
+		 * logger.warn("Example log from"); logger.error("Example log from");
+		 * logger.fatal("Example log from");
+		 */
+
 		logger.info("Inicio del programa...");
 
 		Scanner sc = new Scanner(System.in);
@@ -49,14 +47,15 @@ public class Init {
 			System.out.println("\t13-CAMBIAR NOMBRE CIUDAD");
 			System.out.println("\t14-AÑADIR CIUDAD");
 			System.out.println("\t15-AÑADIR PAÍS");
-			System.out.println("\t16-CERRAR CONEXIÓN CON BD");
-			System.out.println("\t17-SALIR");
+			System.out.println("\t16-ESCRIBIR CIUDADES EN UN FICHERO");
+			System.out.println("\t17-CERRAR CONEXIÓN CON BD");
+			System.out.println("\t18-SALIR");
 			System.out.println("\n\n");
 
 			do {
 				System.out.println("Introduzca la opción deseada: ");
 				opt = Integer.valueOf(sc.nextLine());
-			} while (opt < 1 || opt > 17);
+			} while (opt < 1 || opt > 18);
 
 			switch (opt) {
 			case 1:
@@ -71,19 +70,19 @@ public class Init {
 			case 3:
 				System.out.println("----Compruebo una ciudad----");
 				System.out.println("Introduzca el código de la ciudad a comprobar: ");
-				
+
 				long codigoCiudad = Long.valueOf(sc.nextLine());
-				
+
 				System.out.println(cs.existeCiudad(codigoCiudad) ? "Sí está en la BD" : "No encontrado.");
 
 				break;
 			case 7:
 				System.out.println("----Muestro las ciudades por nombre de país----");
-				
+
 				System.out.println("Introduzca el código de la ciudad a comprobar: ");
-				
+
 				String nombrePais = sc.nextLine();
-				
+
 				ciudades = cs.listaCiudades(nombrePais);
 
 				for (City city : ciudades) {
@@ -91,8 +90,32 @@ public class Init {
 				}
 
 				break;
+
+			case 13:
+				System.out.println("----Actualizar nombre ciudad----");
+
+				System.out.println("Introduzca el nombre antiguo de la ciudad: ");
+
+				String nombreCiudad = sc.nextLine();
+
 				
+				System.out.println("Introduzca el nombre del país: ");
+
+				nombrePais = sc.nextLine();
+				
+				System.out.println("Introduzca el nombre nuevo de la ciudad: ");
+
+				String nombreCiudadNuevo = sc.nextLine();
+
+				System.out.println(cs.actualizarNombreCiudad(nombreCiudad, nombrePais, nombreCiudadNuevo) ? "Actualizado con éxito."
+						: "No se ha podido actualizar");
+				break;
+
 			case 16:
+				System.out.println("----Escribir ciudades en un fichero----");
+				cs.escribirCiudadesFichero();
+				break;
+			case 17:
 				System.out.println("----Cerrar la conexión de DB----");
 				DBConnection.getInstance().destroyConnection();
 				break;
@@ -100,11 +123,11 @@ public class Init {
 			default:
 				break;
 			}
-		} while (opt != 17);
-		
+		} while (opt != 18);
+
 		// Fin del programa
 		DBConnection.getInstance().destroyConnection();
-		
+
 		sc.close();
 
 	}
